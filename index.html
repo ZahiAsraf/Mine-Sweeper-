@@ -8,15 +8,15 @@
     <title>Mine Sweeper</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
-
+<!-- onmousedown="putFlag(event)" -->
 <body onload="onInit()">
     <h1> Mine Sweeper !</h1>
 
     
     <div class="buttons">
-        <button onclick="lvlBeg()">Begginer</button>
-        <button onclick="lvlMed()">Mediumd</button>
-            <button onclick="lvlEx()">Expart</button>
+        <button onclick="lvlBeg()">Beginner</button>
+        <button onclick="lvlMed()">Medium</button>
+            <button onclick="lvlEx()">Expert</button>
         </div>
         
         <table cellpadding="20">
@@ -24,10 +24,8 @@
         </table>
         
         <div class ="container">
-            <h2>Timer:</h2>
-            <h3 class="time"></h3>
-            <h2>Mine Count:</h2>
-            <h3 class="nextNum"></h3>
+            <h2 class="time">Timer:<span>0:00</span></h2>
+            <h2 class="nextNum">Mine Count:<span></span></h2>
         </div>
         
     <script src="js/utils.js"></script>

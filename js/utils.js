@@ -20,7 +20,7 @@ function getEmptyCell() {
 			}
 		}
 	}
-    console.log('empty pos', emptyPositions)
+    // console.log('empty pos', emptyPositions)
 	return emptyPositions
 }
 

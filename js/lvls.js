@@ -9,7 +9,7 @@ function lvlBeg(){
     renderBoard(gBoard,'.board')
     addMines()
     runGeneration(gBoard)
-
+    MineRemained(gMine)
 }
 
 
@@ -22,7 +22,7 @@ function lvlMed(){
     renderBoard(gBoard,'.board')
     addMines()
     runGeneration(gBoard)
-
+    MineRemained(gMine)
 }
 
 function lvlEx(){
@@ -33,5 +33,5 @@ function lvlEx(){
     renderBoard(gBoard,'.board')
     addMines()
     runGeneration(gBoard)
-
+    
 }
