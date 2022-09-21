@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>touch-nums</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body onload="onInit()">
+    <h1> Mine Sweeper !</h1>
+
+    
+    <div class="buttons">
+        <button onclick="lvlBeg()">Begginer</button>
+        <button onclick="lvlMed()">Mediumd</button>
+            <button onclick="lvlEx()">Expart</button>
+        </div>
+        
+        <table cellpadding="20">
+            <tbody class="board"></tbody>
+        </table>
+        
+        <div class ="container">
+            <h2>Timer:</h2>
+            <h3 class="time"></h3>
+            <h2>Mine Count:</h2>
+            <h3 class="nextNum"></h3>
+        </div>
+        
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/lvls.js"></script>
+    <!-- <script src="js/timer.js"></script> -->
+
+    <div class="box">
+        <img src="" />
+        <!-- <div class="restart">
+        <button onclick="restart()">Restart</button>
+    </div> -->
+
+</body>
