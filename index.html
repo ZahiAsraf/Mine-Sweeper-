@@ -9,29 +9,34 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <!-- onmousedown="putFlag(event)" -->
-<body onload="onInit()">
+
+<body onload="onInit(4,2)">
     <h1> Mine Sweeper !</h1>
 
-    
+
     <div class="buttons">
-        <button onclick="lvlBeg()">Beginner</button>
-        <button onclick="lvlMed()">Medium</button>
-            <button onclick="lvlEx()">Expert</button>
-        </div>
-        
-        <table cellpadding="20">
-            <tbody class="board"></tbody>
-        </table>
-        
-        <div class ="container">
-            <h2 class="time">Timer:<span>0:00</span></h2>
-            <h2 class="nextNum">Mine Count:<span></span></h2>
-        </div>
-        
+        <button onclick="onInit(4,2)">Beginner</button>
+        <button onclick="onInit(8,14)">Medium</button>
+        <button onclick="onInit(12,32)">Expert</button>
+    </div>
+
+    <table cellpadding="20">
+        <tbody class="board"></tbody>
+    </table>
+
+    <div class="life">
+        <img class="life1" ; src="img/life.svg">
+        <img class="life2" ; src="img/life.svg">
+        <img class="life3" ; src="img/life.svg">
+    </div>
+
+    <div class="container">
+        <h2 class="time">Timer:<span>0:00</span></h2>
+        <h2 class="nextNum">Mine Count:<span></span></h2>
+    </div>
+
     <script src="js/utils.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/lvls.js"></script>
-    <!-- <script src="js/timer.js"></script> -->
 
     <div class="box">
         <img src="" />

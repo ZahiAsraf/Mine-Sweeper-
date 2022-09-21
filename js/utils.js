@@ -47,3 +47,20 @@ function getRandomColor() {
   }
   return color;
 }
+
+function showTimer() {
+    var timer = document.querySelector('.time span')
+    var start = Date.now()
+
+    gtimerInterval = setInterval(function () {
+        var currTs = Date.now()
+
+        var secs = parseInt((currTs - start) / 1000)
+        var ms = (currTs - start) - secs * 1000
+        ms = '000' + ms
+        // 00034 // 0001
+        ms = ms.substring(ms.length - 3, ms.length)
+
+        timer.innerText = `\n ${secs}:${ms}`
+    }, 100)
+}

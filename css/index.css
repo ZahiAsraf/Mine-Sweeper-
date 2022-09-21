@@ -21,22 +21,43 @@ body {
     background-color: rgb(143, 143, 142);
     padding: 15px;
 }
-.board tr td{
+
+.board tr td {
     display: center;
 }
+
 .board td:hover {
-    background-color:rgb(98, 97, 97);
+    background-color: #626161;
 }
 
-.container{
-    display: inline-flex; 
+.container {
+    display: inline-flex;
     padding: 10px;
     margin: 10px;
 }
-.time{
+
+.time {
     padding: 10px;
 }
 
-.nextNum{
+.nextNum {
     padding: 10px;
+}
+
+.life1 {
+    height: 60px;
+    width: 60px;
+    display: inline;
+}
+
+.life2 {
+    height: 60px;
+    width: 60px;
+    display: inline;
+}
+
+.life3 {
+    height: 60;
+    width: 60px;
+    display: inline;
 }
