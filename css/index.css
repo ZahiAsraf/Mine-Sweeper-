@@ -1,5 +1,10 @@
 body {
     margin: center;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .buttons {
@@ -23,3 +28,15 @@ body {
     background-color:rgb(98, 97, 97);
 }
 
+.container{
+    display: inline-flex; 
+    padding: 10px;
+    margin: 10px;
+}
+.time{
+    padding: 10px;
+}
+
+.nextNum{
+    padding: 10px;
+}
