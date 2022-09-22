@@ -1,6 +1,6 @@
 'use strict'
 
-const MINE = '<img class="mine"; style="height:100%"; src="img/bomb.svg">';
+const MINE = '<img class="mine"; style="height:65%"; src="img/bomb.svg">';
 const EMPTY = '';
 const FLAG = '<img class="mine"; style="height:100%"; src="img/warning.gif">';
 const SHOWN_GREY = 'rgb(186, 186, 178)';
@@ -57,12 +57,24 @@ function reset(size, mines) {
     gGame.shownCount = 0
     steps = 0
 
+    hintMode = false;
+    hints = 3;
+    megaHintMode = false;
+    megaHintCount = 1;
+    megaHintParts = 2;
+    megaCell;
+
+
+    document.querySelector('.hint1').style.display = 'inline'
+    document.querySelector('.hint2').style.display = 'inline'
+    document.querySelector('.hint3').style.display = 'inline'
+
     var elLife = '.' + 'life' + life
     document.querySelector('.life1').style.display = 'inline'
     document.querySelector('.life2').style.display = 'inline'
     document.querySelector('.life3').style.display = 'inline'
 
-    document.querySelector('.nEmoji').style.display = 'inLine'
+    document.querySelector('.nEmoji').style.display = 'inline'
     document.querySelector('.winEmoji').style.display = 'none'
     document.querySelector('.loseEmoji').style.display = 'none'
 }
@@ -210,9 +222,6 @@ function expandShown(cellI, cellJ, mat) {
                     document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
                     gBoard[i][j].isShown = true
                     expandShown2(i, j, mat)
-                    // if (!gBoard[i][j].minesAroundCount) {
-                    //     expandShown(i, j, mat);
-                    // }
                 }
                 renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
             }
@@ -266,8 +275,6 @@ function onCellClicked(elCell, i, j, ev) {
         }
 
     }
-
-
     if (ev.button === 0) {
         if (firstClick === 1 && !gBoard[i][j].isMine) activeTimer();
         if (!gGame.isOn || gBoard[i][j].isShown) return
@@ -280,7 +287,7 @@ function onCellClicked(elCell, i, j, ev) {
             elCell.style.backgroundColor = SHOWN_GREY;
             // console.log(elCell, gBoard[i][j])
             steps++
-            console.log('steps', steps)
+            // console.log('steps', steps)
         }
 
         else if (gBoard[i][j].minesAroundCount === '' &&
@@ -297,8 +304,8 @@ function onCellClicked(elCell, i, j, ev) {
                 var elLife = '.' + 'life' + life
                 document.querySelector(elLife).style.display = 'none'
                 life--
-                console.log('life : ', life)
-                console.log('cell Class', elCell)
+                // console.log('life : ', life)
+                // console.log('cell Class', elCell)
                 elCell.style.backgroundColor = 'tomato';
                 steps++
             }
@@ -310,6 +317,8 @@ function onCellClicked(elCell, i, j, ev) {
 
         }
 
+        stepsCounter(steps)
+        victoryCheck(gBoard)
 
     } else if (ev.button === 2 && !gBoard[i][j].isShown) {
         // console.log('ev', ev)
@@ -328,8 +337,6 @@ function onCellClicked(elCell, i, j, ev) {
 
         }
     } else return
-    stepsCounter(steps)
-    victoryCheck(gBoard)
 }
 
 
@@ -375,8 +382,8 @@ function victoryCheck(board) {
         for (var j = 0; j < board[i].length; j++) {
             if (board[i][j].isShown && !board[i][j].isMine) {
                 count++
-                console.log('victory check', count)
-                console.log('victory check', gGame.shownCount - gLevel.MINES)
+                // console.log('victory check', count)
+                // console.log('victory check', gGame.shownCount - gLevel.MINES)
             }
         }
     }
@@ -401,6 +408,7 @@ function endGame() {
 
 
 function hintClick() {
+    if (!gGame.isOn) return
     hintMode = true
     var hintNum = '.hint' + hints
     console.log('hint num :', hintNum)
@@ -447,7 +455,7 @@ function hintModeOff(cellI, cellJ, mat) {
 
 
 function megaHintClick() {
-    if (megaHintCount !== 0) {
+    if (megaHintCount !== 0 && gGame.isOn) {
         megaHintMode = true;
         megaHintCount--
     }
@@ -493,8 +501,8 @@ function megaHintModeOn(cellI, cellJ, mat) {
 }
 
 function megaHintModeOff(cellI, cellJ, mat) {
-    console.log('mega Cell.i :', megaCell.i)
-    console.log('CellI :', cellI)
+    // console.log('mega Cell.i :', megaCell.i)
+    // console.log('CellI :', cellI)
 
     var length = { i: 0, j: 0 }
     var lowI;
@@ -519,11 +527,14 @@ function megaHintModeOff(cellI, cellJ, mat) {
         for (var j = lowJ; j <= length.j; j++) {
             console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
-            var cellClass = '.' + getClassName({ i: i, j: j })
-            document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
-            renderCell({ i: i, j: j }, '')
+            if (!gBoard[i][j].isShown) {
+                var cellClass = '.' + getClassName({ i: i, j: j })
+                document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
+                renderCell({ i: i, j: j }, '')
+            }
         }
     }
+    megaHintMode = false
     megaHintParts--
     megaCell = null
 }

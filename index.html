@@ -11,8 +11,9 @@
 <!-- onmousedown="putFlag(event)" -->
 
 <body onload="onInit(8,14)">
-    <h1> Mine Sweeper !</h1>
-
+    <div class="title">
+        <h1> Mine Sweeper !</h1>
+    </div>
     <div class="container">
         <div class="sBoard">
             <h2 class="time">Timer:<span>0:00</span></h2>
@@ -43,8 +44,9 @@
             <img class="life3" ; src="img/life.svg">
         </div>
         <div class="mega-hint">
-            <button class="hint-button" ; onclick="megaHintClick()">Mega Hint<button>
+            <button class="hint-button" ; onclick="megaHintClick()">Mega Hint</button>
         </div>
+
         <div class="hint">
             <img class="hint1" ; onclick="hintClick()" ; src="img/hint.svg">
             <img class="hint2" ; onclick="hintClick()" ; src="img/hint.svg">
@@ -53,9 +55,9 @@
     </div>
 
     <div class="buttons-container">
-        <button class="button" ; onclick="onInit(4,2)">Beginner</button>
-        <button class="button" ; onclick="onInit(8,14)">Medium</button>
-        <button class="button" ; onclick="onInit(12,32)">Expert</button>
+        <button class="lvlbtn" ; onclick="onInit(4,2)">Beginner</button>
+        <button class="lvlbtn" ; onclick="onInit(8,14)">Medium</button>
+        <button class="lvlbtn" ; onclick="onInit(12,32)">Expert</button>
     </div>
 
     <script src="js/utils.js"></script>
