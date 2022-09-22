@@ -14,8 +14,12 @@
     <h1> Mine Sweeper !</h1>
 
     <div class="container">
-        <h2 class="time">Timer:<span>0:00</span></h2>
-        <h2 class="nextNum">Steps Count:<span>0</span></h2>
+        <div class="sBoard">
+            <h2 class="time">Timer:<span>0:00</span></h2>
+        </div>
+        <div class="sBoard">
+            <h2 class="nextNum">Steps Count:<span>0</span></h2>
+        </div>
     </div>
 
 
@@ -31,32 +35,30 @@
         <tbody class="board"></tbody>
     </table>
 
+
     <div class="game-container">
         <div class="life">
             <img class="life1" ; src="img/life.svg">
             <img class="life2" ; src="img/life.svg">
             <img class="life3" ; src="img/life.svg">
         </div>
+        <div class="mega-hint">
+            <button class="hint-button" ; onclick="megaHintClick()">Mega Hint<button>
+        </div>
         <div class="hint">
-            <img class="hint1" ; onclick="hintClick(1)" ; src="img/hint.svg">
-            <img class="hint2" ; onclick="hintClick(2)" ; src="img/hint.svg">
-            <img class="hint3" ; onclick="hintClick(3)" ; src="img/hint.svg">
+            <img class="hint1" ; onclick="hintClick()" ; src="img/hint.svg">
+            <img class="hint2" ; onclick="hintClick()" ; src="img/hint.svg">
+            <img class="hint3" ; onclick="hintClick()" ; src="img/hint.svg">
         </div>
     </div>
 
-    <div class="buttons">
-        <button onclick="onInit(4,2)">Beginner</button>
-        <button onclick="onInit(8,14)">Medium</button>
-        <button onclick="onInit(12,32)">Expert</button>
+    <div class="buttons-container">
+        <button class="button" ; onclick="onInit(4,2)">Beginner</button>
+        <button class="button" ; onclick="onInit(8,14)">Medium</button>
+        <button class="button" ; onclick="onInit(12,32)">Expert</button>
     </div>
 
     <script src="js/utils.js"></script>
     <script src="js/index.js"></script>
-
-    <div class="box">
-        <img src="" />
-        <!-- <div class="restart">
-        <button onclick="restart()">Restart</button>
-    </div> -->
 
 </body>

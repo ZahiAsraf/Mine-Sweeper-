@@ -5,12 +5,25 @@ const EMPTY = '';
 const FLAG = '<img class="mine"; style="height:100%"; src="img/warning.gif">';
 const SHOWN_GREY = 'rgb(186, 186, 178)';
 const LIGHT_GREY = 'rgb(200, 200, 200)';
+const COVER_GREY = 'rgb(143, 143, 142)';
 
 
 var gBoard;
+
 var mouseIsDown = false;
+
+var hintMode = false;
+var hints = 3;
+var megaHintMode = false;
+var megaHintCount = 1;
+var megaHintParts = 2;
+var megaCell;
+
+
 var gtimerInterval;
+
 var firstClick = 1;
+
 var life;
 var count = 0;
 var steps = 0;
@@ -236,6 +249,24 @@ function expandShown2(cellI, cellJ, mat) {
 
 function onCellClicked(elCell, i, j, ev) {
 
+    if (hintMode && !megaHintMode) {
+        hintModeOn(i, j, gBoard)
+        return
+    }
+
+    if (megaHintMode && !hintMode) {
+        if (megaHintParts === 2) {
+            megaCell = { i: i, j: j }
+            megaHintParts--
+            return
+        }
+        if (megaHintParts === 1) {
+            megaHintModeOn(i, j, gBoard)
+            return
+        }
+
+    }
+
 
     if (ev.button === 0) {
         if (firstClick === 1 && !gBoard[i][j].isMine) activeTimer();
@@ -262,16 +293,21 @@ function onCellClicked(elCell, i, j, ev) {
 
         else if (gBoard[i][j].isMine && firstClick === 0) {
             renderCell({ i: i, j: j }, MINE)
-            if (life === 1) {
+            if (life !== 0) {
+                var elLife = '.' + 'life' + life
+                document.querySelector(elLife).style.display = 'none'
+                life--
+                console.log('life : ', life)
+                console.log('cell Class', elCell)
+                elCell.style.backgroundColor = 'tomato';
+                steps++
+            }
+            if (life === 0) {
+                elCell.style.backgroundColor = 'tomato';
                 endGame()
                 console.log('life : ', life)
-            } else life--
-            var elLife = '.' + 'life' + life
-            document.querySelector(elLife).style.display = 'none'
-            console.log('life : ', life)
-            console.log('cell Class', elCell)
-            elCell.style.backgroundColor = 'tomato';
-            steps++
+            }
+
         }
 
 
@@ -364,9 +400,130 @@ function endGame() {
 }
 
 
-function hintClick(num) {
+function hintClick() {
+    hintMode = true
+    var hintNum = '.hint' + hints
+    console.log('hint num :', hintNum)
+    document.querySelector(hintNum).style.display = 'none'
+    hints--
+}
 
+
+function hintModeOn(cellI, cellJ, mat) {
+
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= mat.length) continue;
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            console.log('mat[i][j] = ' + mat[i][j]);
+            if (j < 0 || j >= mat[i].length) continue;
+            var cellClass = '.' + getClassName({ i: i, j: j })
+            document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+            if (gBoard[i][j].minesAroundCount === '') {
+                document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
+            }
+            renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
+        }
+    }
+    setTimeout(hintModeOff, 500, cellI, cellJ, mat)
+}
+
+
+function hintModeOff(cellI, cellJ, mat) {
+
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= mat.length) continue;
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            console.log('mat[i][j] = ' + mat[i][j]);
+            if (j < 0 || j >= mat[i].length) continue;
+            var cellClass = '.' + getClassName({ i: i, j: j })
+            document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
+            renderCell({ i: i, j: j }, '')
+            // }
+        }
+    }
+    hintMode = false
 }
 
 
 
+function megaHintClick() {
+    if (megaHintCount !== 0) {
+        megaHintMode = true;
+        megaHintCount--
+    }
+}
+
+function megaHintModeOn(cellI, cellJ, mat) {
+
+    console.log('mega Cell.i :', megaCell.i)
+    console.log('CellI :', cellI)
+
+    var length = { i: 0, j: 0 }
+    var lowI;
+    var lowJ;
+    if (megaCell.i > cellI) {
+        length.i = megaCell.i
+        lowI = cellI
+    } else {
+        length.i = cellI
+        lowI = megaCell.i
+    }
+    if (megaCell.j > cellJ) {
+        length.j = megaCell.j
+        lowJ = cellJ
+    } else {
+        length.j = cellJ
+        lowJ = megaCell.j
+    }
+
+    for (var i = lowI; i <= length.i; i++) {
+        if (i < 0 || i >= mat.length) continue;
+        for (var j = lowJ; j <= length.j; j++) {
+            console.log('mat[i][j] = ' + mat[i][j]);
+            if (j < 0 || j >= mat[i].length) continue;
+            var cellClass = '.' + getClassName({ i: i, j: j })
+            document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+            if (gBoard[i][j].minesAroundCount === '') {
+                document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
+            }
+            renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
+        }
+    }
+    setTimeout(megaHintModeOff, 2000, cellI, cellJ, mat)
+}
+
+function megaHintModeOff(cellI, cellJ, mat) {
+    console.log('mega Cell.i :', megaCell.i)
+    console.log('CellI :', cellI)
+
+    var length = { i: 0, j: 0 }
+    var lowI;
+    var lowJ;
+    if (megaCell.i > cellI) {
+        length.i = megaCell.i
+        lowI = cellI
+    } else {
+        length.i = cellI
+        lowI = megaCell.i
+    }
+    if (megaCell.j > cellJ) {
+        length.j = megaCell.j
+        lowJ = cellJ
+    } else {
+        length.j = cellJ
+        lowJ = megaCell.j
+    }
+
+    for (var i = lowI; i <= length.i; i++) {
+        if (i < 0 || i >= mat.length) continue;
+        for (var j = lowJ; j <= length.j; j++) {
+            console.log('mat[i][j] = ' + mat[i][j]);
+            if (j < 0 || j >= mat[i].length) continue;
+            var cellClass = '.' + getClassName({ i: i, j: j })
+            document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
+            renderCell({ i: i, j: j }, '')
+        }
+    }
+    megaHintParts--
+    megaCell = null
+}

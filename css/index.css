@@ -8,9 +8,8 @@ h1 {
 }
 
 
-
 body {
-    margin: center;
+    margin: auto;
     top: 50%;
     left: 50%;
     position: absolute;
@@ -26,20 +25,50 @@ body {
 
 }
 
-.buttons {
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 25px;
-    cursor: pointer;
-
-    /* align-items: center;
+.buttons-container {
+    align-items: center;
     justify-content: center;
-    padding: 30px;
+    padding: 5px;
     top: 50%;
-    left: 50%; */
+    left: 50%;
+    display: inline-flex;
 }
 
-/* .board {
+.button {
+    margin: auto;
+    border-radius: 35px;
+    color: rgb(78, 47, 28);
+    border-color: #626161;
+    font-size: 20px;
+    height: 40px;
+    width: 140px;
+    left: 30%;
+    background-color: rgb(180, 180, 180);
+}
+
+.button:hover {
+    background-color: rgb(238, 236, 236)
+}
+
+.hint-button {
+    margin: auto;
+    border-radius: 35px;
+    color: rgb(206, 204, 204);
+    border-color: #626161;
+    font-size: 20px;
+    height: 40px;
+    width: 140px;
+    left: 30%;
+    background-color: rgba(19, 4, 239, 0.881);
+    cursor: pointer;
+
+}
+
+.hint-button:hover {
+    background-color: rgba(0, 136, 255, 0.881)
+}
+
+.board {
     margin: auto;
     text-align: center;
     align-items: center;
@@ -47,7 +76,7 @@ body {
     padding: 50px;
     top: 50%;
     left: 50%;
-} */
+}
 
 .board td {
     margin: auto;
@@ -64,9 +93,6 @@ body {
 
 }
 
-.board tr td {
-    display: center;
-}
 
 .board td:hover {
     background-color: #626161;
@@ -74,34 +100,36 @@ body {
 
 .container {
     display: inline-flex;
-    padding: 10px;
+    /* padding: 10px; */
     margin: 10px;
-    padding: 2px;
+    /* padding: 2px; */
+}
+
+.sBoard {
+    margin: 20px;
 }
 
 .time {
 
     background-color: rgb(180, 180, 180);
-    height: 100px;
+    height: 75px;
     width: 200px;
     margin: auto;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 24px;
     text-align: center;
-    padding-top: 20px;
 }
 
 .nextNum {
     background-color: rgb(180, 180, 180);
-    height: 100px;
+    height: 75px;
     width: 200px;
     margin: auto;
+    text-align: center;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 24px;
-    text-align: center;
-    padding-top: 20px;
 }
 
 .emoji {
@@ -167,8 +195,9 @@ body {
 }
 
 .game-container {
+    margin: 20px;
     display: inline-flex;
-    padding: 10px;
+    padding: 20px;
 }
 
 .hint {
