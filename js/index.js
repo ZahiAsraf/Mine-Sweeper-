@@ -8,10 +8,12 @@ const LIGHT_GREY = 'rgb(200, 200, 200)';
 
 
 var gBoard;
-// var mineCount = 0;
+var mouseIsDown = false;
 var gtimerInterval;
 var firstClick = 1;
 var life;
+var count = 0;
+var steps = 0;
 
 var gGame = {
     isOn: false,
@@ -30,7 +32,6 @@ function onInit(size, mines) {
     renderBoard(gBoard, '.board')
     addMines()
     runGeneration(gBoard)
-    MineRemained(gLevel.MINES)
     document.addEventListener('contextmenu', event => event.preventDefault());
 
 }
@@ -40,11 +41,17 @@ function reset(size, mines) {
     firstClick = 1;
     gLevel.SIZE = size
     gLevel.MINES = mines
+    gGame.shownCount = 0
+    steps = 0
 
     var elLife = '.' + 'life' + life
     document.querySelector('.life1').style.display = 'inline'
     document.querySelector('.life2').style.display = 'inline'
     document.querySelector('.life3').style.display = 'inline'
+
+    document.querySelector('.nEmoji').style.display = 'inLine'
+    document.querySelector('.winEmoji').style.display = 'none'
+    document.querySelector('.loseEmoji').style.display = 'none'
 }
 
 function createBoard() {
@@ -154,6 +161,7 @@ function runGeneration(board) {
     return newBoard;
 }
 
+
 function setMinesNegsCount(cellI, cellJ, mat) {
     var negsCount = 0;
 
@@ -187,7 +195,37 @@ function expandShown(cellI, cellJ, mat) {
                 document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
                 if (gBoard[i][j].minesAroundCount === '') {
                     document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
-                    // expandShown(i, j, mat);
+                    gBoard[i][j].isShown = true
+                    expandShown2(i, j, mat)
+                    // if (!gBoard[i][j].minesAroundCount) {
+                    //     expandShown(i, j, mat);
+                    // }
+                }
+                renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
+            }
+        }
+    }
+}
+
+function expandShown2(cellI, cellJ, mat) {
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= mat.length) continue;
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            console.log('mat[i][j] = ' + mat[i][j]);
+            if (j < 0 || j >= mat[i].length) continue;
+            if (i === cellI && j === cellJ) continue;
+            if (!mat[i][j].isMine) {
+                mat[i][j].isShown = true
+
+                var cellClass = '.' + getClassName({ i: i, j: j })
+                document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+                if (gBoard[i][j].minesAroundCount === '') {
+                    document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
+                    gBoard[i][j].isShown = true
+
+                    // if (!gBoard[i][j].minesAroundCount) {
+                    //     expandShown(i, j, mat);
+                    // }
                 }
                 renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
             }
@@ -199,9 +237,8 @@ function expandShown(cellI, cellJ, mat) {
 function onCellClicked(elCell, i, j, ev) {
 
 
-
     if (ev.button === 0) {
-        if (firstClick === 1) activeTimer();
+        if (firstClick === 1 && !gBoard[i][j].isMine) activeTimer();
         if (!gGame.isOn || gBoard[i][j].isShown) return
 
         gBoard[i][j].isShown = true
@@ -211,6 +248,8 @@ function onCellClicked(elCell, i, j, ev) {
             renderCell({ i: i, j: j }, gBoard[i][j].minesAroundCount)
             elCell.style.backgroundColor = SHOWN_GREY;
             // console.log(elCell, gBoard[i][j])
+            steps++
+            console.log('steps', steps)
         }
 
         else if (gBoard[i][j].minesAroundCount === '' &&
@@ -218,11 +257,10 @@ function onCellClicked(elCell, i, j, ev) {
             renderCell({ i: i, j: j }, '')
             elCell.style.backgroundColor = LIGHT_GREY;
             expandShown(i, j, gBoard)
-
-
+            steps++
         }
 
-        else if (gBoard[i][j].isMine) {
+        else if (gBoard[i][j].isMine && firstClick === 0) {
             renderCell({ i: i, j: j }, MINE)
             if (life === 1) {
                 endGame()
@@ -233,7 +271,9 @@ function onCellClicked(elCell, i, j, ev) {
             console.log('life : ', life)
             console.log('cell Class', elCell)
             elCell.style.backgroundColor = 'tomato';
+            steps++
         }
+
 
     } else if (ev.button === 2 && !gBoard[i][j].isShown) {
         // console.log('ev', ev)
@@ -252,16 +292,15 @@ function onCellClicked(elCell, i, j, ev) {
 
         }
     } else return
-
+    stepsCounter(steps)
     victoryCheck(gBoard)
 }
 
 
-function MineRemained(num) {
+function stepsCounter(num) {
     var count = document.querySelector('.nextNum span')
     count.innerText = num
 }
-
 
 
 function activeTimer() {
@@ -272,8 +311,30 @@ function activeTimer() {
     }
 }
 
+
+window.addEventListener('mousedown', function () {
+    mouseIsDown = true;
+    if (gGame.isOn) {
+        setTimeout(function () {
+            if (mouseIsDown) {
+                // mouse was held down for > 2 seconds
+                document.querySelector(".onEmoji").style.display = 'inLine';
+                document.querySelector('.nEmoji').style.display = 'none'
+            }
+        }, 1);
+    }
+});
+
+window.addEventListener('mouseup', function () {
+    mouseIsDown = false;
+    if (gGame.isOn) {
+        document.querySelector('.nEmoji').style.display = 'inLine'
+        document.querySelector(".onEmoji").style.display = 'none';
+    }
+});
+
 function victoryCheck(board) {
-    var count = 0;
+    count = 0;
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[i].length; j++) {
             if (board[i][j].isShown && !board[i][j].isMine) {
@@ -288,9 +349,24 @@ function victoryCheck(board) {
         console.log(' Victory !')
     }
 }
+
 function endGame() {
     clearInterval(gtimerInterval);
     gGame.isOn = false
 
+    document.querySelector('.nEmoji').style.display = 'none'
+    if (count === gGame.shownCount - gLevel.MINES) {
+        document.querySelector('.winEmoji').style.display = 'inLine'
+        document.querySelector('.nEmoji').style.display = 'none'
+    } else
+        document.querySelector('.loseEmoji').style.display = 'inLine'
+    document.querySelector('.nEmoji').style.display = 'none'
+}
+
+
+function hintClick(num) {
 
 }
+
+
+

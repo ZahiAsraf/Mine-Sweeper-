@@ -1,3 +1,14 @@
+h1 {
+    border: 5px solid rgb(180, 180, 180);
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 50px;
+    bottom: 20px;
+
+}
+
+
+
 body {
     margin: center;
     top: 50%;
@@ -7,19 +18,50 @@ body {
     text-align: center;
 }
 
-.buttons {
-    margin: 10px;
-    border-radius: 25%;
+.cell {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 1.5em;
+
 }
 
+.buttons {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+
+    /* align-items: center;
+    justify-content: center;
+    padding: 30px;
+    top: 50%;
+    left: 50%; */
+}
+
+/* .board {
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    top: 50%;
+    left: 50%;
+} */
 
 .board td {
+    margin: auto;
     width: 35px;
     height: 35px;
     text-align: center;
     transition: 0.5s;
     background-color: rgb(143, 143, 142);
+    font-size: 30px;
     padding: 15px;
+    cursor: pointer;
+
+    /* display: inline-flex; */
+
 }
 
 .board tr td {
@@ -34,30 +76,119 @@ body {
     display: inline-flex;
     padding: 10px;
     margin: 10px;
+    padding: 2px;
 }
 
 .time {
-    padding: 10px;
+
+    background-color: rgb(180, 180, 180);
+    height: 100px;
+    width: 200px;
+    margin: auto;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 20px;
 }
 
 .nextNum {
-    padding: 10px;
+    background-color: rgb(180, 180, 180);
+    height: 100px;
+    width: 200px;
+    margin: auto;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.emoji {
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    border-radius: 25%;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+}
+
+.nEmoji {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+}
+
+.onEmoji {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: none;
+}
+
+.winEmoji {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: none;
+}
+
+
+.loseEmoji {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: none;
+}
+
+.life {
+    left: 20px;
 }
 
 .life1 {
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
     display: inline;
 }
 
 .life2 {
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45x;
     display: inline;
 }
 
 .life3 {
-    height: 60;
+    height: 45px;
+    width: 45px;
+    display: inline;
+}
+
+.game-container {
+    display: inline-flex;
+    padding: 10px;
+}
+
+.hint {
+    right: 20px;
+}
+
+.hint1 {
+    height: 45px;
     width: 60px;
+    display: inline;
+}
+
+.hint2 {
+    height: 45px;
+    width: 45px;
+    display: inline;
+}
+
+.hint3 {
+    height: 45px;
+    width: 45px;
     display: inline;
 }
