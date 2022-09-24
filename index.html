@@ -6,45 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mine Sweeper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
 </head>
-<!-- onmousedown="putFlag(event)" -->
+
 
 <body onload="onInit(8,14)">
-    <div class="title">
-        <h1> Mine Sweeper !</h1>
-    </div>
-    <div class="container">
-        <div class="sBoard">
-            <h2 class="time">Timer:<span>0:00</span></h2>
+    <div class="header">
+        <div class="inner-header">
+            <div class="main-title">
+                <h1> Mine<span>Sweeper</span></h1>
+            </div>
+            <div class="container">
+                <div class="sBoard">
+                    <h2 class="time">Timer: <span>0:00</span></h2>
+                </div>
+                <div class="sBoard">
+                    <h2 class="nextNum">Steps Count: <span>0</span></h2>
+                </div>
+            </div>
         </div>
-        <div class="sBoard">
-            <h2 class="nextNum">Steps Count:<span>0</span></h2>
-        </div>
     </div>
-
-
-    <div class="emoji">
-        <img class="nEmoji" ; src="img/normal.svg">
-        <img class="onEmoji" ; src="img/onClick.svg">
-        <img class="winEmoji" ; src="img/win.svg">
-        <img class="loseEmoji" ; src="img/lose.svg">
-    </div>
-
-
-    <table class="main-table" ;cellpadding="20">
-        <tbody class="board"></tbody>
-    </table>
 
     <div class="small-box">
-        <div class="game-container">
+        <div class="user-info">
             <div class="life">
                 <img class="life1" ; src="img/life.svg">
                 <img class="life2" ; src="img/life.svg">
                 <img class="life3" ; src="img/life.svg">
             </div>
-            <div class="mega-hint">
-                <button class="hint-button" ; onclick="megaHintClick()">Mega Hint</button>
+            <div class="emoji">
+                <img class="nEmoji" ; src="img/normal.svg">
+                <img class="onEmoji" ; src="img/onClick.svg">
+                <img class="winEmoji" ; src="img/win.svg">
+                <img class="loseEmoji" ; src="img/lose.svg">
             </div>
 
             <div class="hint">
@@ -54,13 +49,32 @@
             </div>
         </div>
 
-        <div class="buttons-container">
-            <button class="lvlbtn" ; onclick="onInit(4,2)">Beginner</button>
-            <button class="lvlbtn" ; onclick="onInit(8,14)">Medium</button>
-            <button class="lvlbtn" ; onclick="onInit(12,32)">Expert</button>
+
+        <table class="main-table" ;cellpadding="20">
+            <tbody class="board"></tbody>
+        </table>
+
+        <div class="small-box">
+            <div class="game-container">
+                <div class="mine-btn">
+                    <img class="mine-ex" ; onclick="mineExClick(gBoard)" ; src="img/mineEx.svg">
+                </div>
+                <div class="mega-hint">
+                    <button class="hint-button" ; onclick="megaHintClick()">Mega Hint</button>
+                </div>
+
+                <div class="undo">
+                    <img class="undo-btn" ; onclick="undoClick()" ; src="img/undo.svg">
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="lvlbtn" ; onclick="onInit(4,2,1)">Beginner</button>
+                <button class="lvlbtn" ; onclick="onInit(8,14,2)">Medium</button>
+                <button class="lvlbtn" ; onclick="onInit(12,32,3)">Expert</button>
+            </div>
         </div>
-    </div>
-    <script src="js/utils.js"></script>
-    <script src="js/index.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/index.js"></script>
 
 </body>

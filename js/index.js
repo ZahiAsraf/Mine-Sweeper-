@@ -30,7 +30,7 @@ var steps = 0;
 
 var gGame = {
     isOn: false,
-    shownCount: 0, markedCount: 0, secsPassed: 0
+    shownCount: 0, markedCount: 0, secsPassed: 0, gameLvl: 0
 }
 
 var gLevel = {
@@ -38,9 +38,9 @@ var gLevel = {
     MINES: 2
 };
 
-function onInit(size, mines) {
+function onInit(size, mines, lvl) {
     endGame()
-    reset(size, mines)
+    reset(size, mines, lvl)
     gBoard = createBoard();
     renderBoard(gBoard, '.board')
     addMines()
@@ -49,12 +49,13 @@ function onInit(size, mines) {
 
 }
 
-function reset(size, mines) {
+function reset(size, mines, lvl) {
     life = 3
     firstClick = 1;
     gLevel.SIZE = size
     gLevel.MINES = mines
     gGame.shownCount = 0
+    gGame.gameLvl = lvl
     steps = 0
 
     hintMode = false;
@@ -69,14 +70,24 @@ function reset(size, mines) {
     document.querySelector('.hint2').style.display = 'inline'
     document.querySelector('.hint3').style.display = 'inline'
 
-    var elLife = '.' + 'life' + life
     document.querySelector('.life1').style.display = 'inline'
     document.querySelector('.life2').style.display = 'inline'
     document.querySelector('.life3').style.display = 'inline'
 
+    if (gGame.gameLvl === 1) {
+        life = 1
+        document.querySelector('.life2').style.display = 'none'
+        document.querySelector('.life3').style.display = 'none'
+    }
+
+
     document.querySelector('.nEmoji').style.display = 'inline'
     document.querySelector('.winEmoji').style.display = 'none'
     document.querySelector('.loseEmoji').style.display = 'none'
+
+    document.querySelector('.mine-ex').style.display = 'inline'
+
+    if (gGame.gameLvl === 1) document.querySelector('.mine-ex').style.display = 'none'
 }
 
 function createBoard() {
@@ -127,7 +138,6 @@ function renderBoard(board) {
     elBoard.innerHTML = strHTML
 }
 
-// location is an object like this - { i: 2, j: 7 }
 function renderCell(location, value) {
     // console.log('location', location)
     // console.log('value', value)
@@ -210,19 +220,18 @@ function expandShown(cellI, cellJ, mat) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= mat.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            console.log('mat[i][j] = ' + mat[i][j]);
+            // console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
             if (i === cellI && j === cellJ) continue;
-            if (!mat[i][j].isMine) {
-                mat[i][j].isShown = true
+            if (!mat[i][j].isMine && !mat[i][j].isShown) {
 
                 var cellClass = '.' + getClassName({ i: i, j: j })
                 document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
-                if (gBoard[i][j].minesAroundCount === '') {
+                if (gBoard[i][j].minesAroundCount === '' && !gBoard[i][j].isShown) {
                     document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
-                    gBoard[i][j].isShown = true
                     expandShown2(i, j, mat)
                 }
+                gBoard[i][j].isShown = true
                 renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
             }
         }
@@ -233,22 +242,17 @@ function expandShown2(cellI, cellJ, mat) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= mat.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            console.log('mat[i][j] = ' + mat[i][j]);
+            // console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
             if (i === cellI && j === cellJ) continue;
-            if (!mat[i][j].isMine) {
-                mat[i][j].isShown = true
+            if (!mat[i][j].isMine && !mat[i][j].isShown) {
 
                 var cellClass = '.' + getClassName({ i: i, j: j })
                 document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
-                if (gBoard[i][j].minesAroundCount === '') {
+                if (gBoard[i][j].minesAroundCount === '' && !gBoard[i][j].isShown) {
                     document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
-                    gBoard[i][j].isShown = true
-
-                    // if (!gBoard[i][j].minesAroundCount) {
-                    //     expandShown(i, j, mat);
-                    // }
                 }
+                gBoard[i][j].isShown = true
                 renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
             }
         }
@@ -279,7 +283,7 @@ function onCellClicked(elCell, i, j, ev) {
         if (firstClick === 1 && !gBoard[i][j].isMine) activeTimer();
         if (!gGame.isOn || gBoard[i][j].isShown) return
 
-        gBoard[i][j].isShown = true
+
         if (gBoard[i][j].minesAroundCount > 0 &&
             !gBoard[i][j].isMine) {
 
@@ -287,6 +291,7 @@ function onCellClicked(elCell, i, j, ev) {
             elCell.style.backgroundColor = SHOWN_GREY;
             // console.log(elCell, gBoard[i][j])
             steps++
+            gBoard[i][j].isShown = true
             // console.log('steps', steps)
         }
 
@@ -294,6 +299,7 @@ function onCellClicked(elCell, i, j, ev) {
             !gBoard[i][j].isMine) {
             renderCell({ i: i, j: j }, '')
             elCell.style.backgroundColor = LIGHT_GREY;
+            gBoard[i][j].isShown = true
             expandShown(i, j, gBoard)
             steps++
         }
@@ -308,14 +314,17 @@ function onCellClicked(elCell, i, j, ev) {
                 // console.log('cell Class', elCell)
                 elCell.style.backgroundColor = 'tomato';
                 steps++
+                gBoard[i][j].isShown = true
             }
             if (life === 0) {
                 elCell.style.backgroundColor = 'tomato';
+                gBoard[i][j].isShown = true
                 endGame()
                 console.log('life : ', life)
             }
 
         }
+        gBoard[i][j].isShown = true
 
         stepsCounter(steps)
         victoryCheck(gBoard)
@@ -411,7 +420,7 @@ function hintClick() {
     if (!gGame.isOn) return
     hintMode = true
     var hintNum = '.hint' + hints
-    console.log('hint num :', hintNum)
+    // console.log('hint num :', hintNum)
     document.querySelector(hintNum).style.display = 'none'
     hints--
 }
@@ -422,12 +431,18 @@ function hintModeOn(cellI, cellJ, mat) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= mat.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            console.log('mat[i][j] = ' + mat[i][j]);
+            // console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
+            console.log('is shown :', mat[i][j].isShown)
             var cellClass = '.' + getClassName({ i: i, j: j })
-            document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
-            if (gBoard[i][j].minesAroundCount === '') {
+            if (!gBoard[i][j].isShown && !gBoard[i][j].isMine) {
+                document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+            }
+            if (gBoard[i][j].minesAroundCount === '' && !gBoard[i][j].isShown && !gBoard[i][j].isMine) {
                 document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
+            }
+            if (gBoard[i][j].isMine && !gBoard[i][j].isShown) {
+                document.querySelector(cellClass).style.backgroundColor = 'tomato';
             }
             renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
         }
@@ -441,12 +456,14 @@ function hintModeOff(cellI, cellJ, mat) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= mat.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-            console.log('mat[i][j] = ' + mat[i][j]);
+            // console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
-            var cellClass = '.' + getClassName({ i: i, j: j })
-            document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
-            renderCell({ i: i, j: j }, '')
-            // }
+            if (!gBoard[i][j].isShown) {
+                var cellClass = '.' + getClassName({ i: i, j: j })
+                document.querySelector(cellClass).style.backgroundColor = COVER_GREY;
+                renderCell({ i: i, j: j }, '')
+                if (gBoard[i][j].isMarked) renderCell({ i: i, j: j }, FLAG)
+            }
         }
     }
     hintMode = false
@@ -490,9 +507,15 @@ function megaHintModeOn(cellI, cellJ, mat) {
             console.log('mat[i][j] = ' + mat[i][j]);
             if (j < 0 || j >= mat[i].length) continue;
             var cellClass = '.' + getClassName({ i: i, j: j })
-            document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+
+            if (!gBoard[i][j].isShown && !gBoard[i][j].isMine) {
+                document.querySelector(cellClass).style.backgroundColor = SHOWN_GREY;
+            }
             if (gBoard[i][j].minesAroundCount === '') {
                 document.querySelector(cellClass).style.backgroundColor = LIGHT_GREY;
+            }
+            if (gBoard[i][j].isMine && !gBoard[i][j].isShown) {
+                document.querySelector(cellClass).style.backgroundColor = 'tomato';
             }
             renderCell({ i: i, j: j }, mat[i][j].minesAroundCount)
         }
@@ -537,4 +560,28 @@ function megaHintModeOff(cellI, cellJ, mat) {
     megaHintMode = false
     megaHintParts--
     megaCell = null
+}
+
+
+function mineExClick(board) {
+    if (gGame.gameLvl === 1) return
+    if (!gGame.isOn) return
+
+    var gMines = getMineCell()
+
+    for (var i = 0; i < 3; i++) {
+        var idx = getRandomIntInclusive(0, gMines.length - 1);
+        var pos = gMines[idx]
+        var numOfNegs = setMinesNegsCount(pos.i, pos.j, board)
+        // console.log('negs : ', numOfNegs)
+        gBoard[pos.i][pos.j].isMine = false
+        gBoard[pos.i][pos.j].minesAroundCount = numOfNegs
+
+        // console.log('get Mines :', gMines)
+        // console.log('cell :', gBoard[pos.i][pos.j])
+        // console.log('cell i :', pos.i)
+        // console.log('cell j :', pos.j)
+
+    }
+    alert('You got -3 Mines on the board now')
 }

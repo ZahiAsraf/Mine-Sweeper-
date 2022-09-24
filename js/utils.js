@@ -1,27 +1,43 @@
 'use strict'
 
 
+function getMineCell() {
+    const emptyPositions = []
+
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            var currCell = gBoard[i][j]
+            if (currCell.isMine && !currCell.isShowen) {
+                // console.log(currCell)
+                var pos = { i: i, j: j }
+                emptyPositions.push(pos)
+            }
+        }
+    }
+    // console.log('empty pos', emptyPositions)
+    return emptyPositions
+}
 
 function getClassName(location) {
-	var cellClass = 'cell-' + location.i + '-' + location.j
-	return cellClass
+    var cellClass = 'cell-' + location.i + '-' + location.j
+    return cellClass
 }
 
 function getEmptyCell() {
-	const emptyPositions = []
+    const emptyPositions = []
 
-	for (var i = 0; i < gBoard.length; i++) {
-		for (var j = 0; j < gBoard[0].length; j++) {
-			var currCell = gBoard[i][j] 
-                // console.log(currCell)
-			if (currCell.minesAroundCount !== MINE) {
-				var pos = { i: i, j: j }
-				emptyPositions.push(pos)
-			}
-		}
-	}
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            var currCell = gBoard[i][j]
+            // console.log(currCell)
+            if (currCell.minesAroundCount !== MINE) {
+                var pos = { i: i, j: j }
+                emptyPositions.push(pos)
+            }
+        }
+    }
     // console.log('empty pos', emptyPositions)
-	return emptyPositions
+    return emptyPositions
 }
 
 function copyMat(mat) {
@@ -40,12 +56,12 @@ function getRandomIntInclusive(min, max) {
 }
 
 function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 function showTimer() {

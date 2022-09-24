@@ -17,33 +17,50 @@ body {
 
 html {
     display: table;
-    width: 90%;
+    width: 100%;
     height: auto;
     margin: auto;
 
 }
 
-h1 {
-    margin: 40px;
+
+
+.header {
+    width: 100%;
+    height: 80%;
+    display: block;
+    /* bottom: 50px; */
+    background-color: #4d4d4d;
+    padding: 5px;
 }
 
-
-.title {
-    height: 200px;
-    bottom: 50px
+.inner-header {
+    width: 90%;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
 }
 
-h1 {
-    border: 5px solid rgb(180, 180, 180);
-    color: rgb(0, 0, 0);
-    padding: 20px;
-    border-radius: 50px;
-    bottom: 20px;
-    top: 50%;
-    left: 50%;
-
+.main-title {
+    height: 100%;
+    display: table;
+    float: left;
 }
 
+.main-title h1 {
+    color: white;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Montserrat';
+    font-size: 32px;
+    font-weight: 200;
+    padding: 10px;
+}
+
+.main-title h1 span {
+    font-weight: 800;
+}
 
 body {
     text-align: center;
@@ -66,7 +83,7 @@ table {
 .buttons-container {
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 0px;
     bottom: -8%;
     left: 7%;
 }
@@ -145,58 +162,82 @@ table {
 }
 
 .container {
+    /* float: right; */
+    height: 100%;
+    margin-right: 15%;
     display: inline-flex;
+    vertical-align: middle;
     /* padding: 10px; */
-    margin: 10px;
+    /* margin: 10px; */
     /* padding: 2px; */
 }
 
 .sBoard {
-    margin: 20px;
+    height: 95%;
+    display: table;
+    float: left;
+    padding: 0px;
+    border: 1px solid;
 }
 
 .small-box {
     margin: auto;
 }
 
-
-
-
-
+.sBoard:last-child {
+    padding-right: 0;
+}
 
 .time {
+    display: table-cell;
+    vertical-align: middle;
+    color: whitesmoke;
+    font-family: 'Montserrat';
+    font-size: 40;
+    font-weight: 200;
+    padding: 10px;
+    background-color: rgb(93, 90, 90);
 
-    background-color: rgb(180, 180, 180);
-    height: 75px;
-    width: 200px;
-    margin: auto;
-    border-radius: 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 24px;
-    text-align: center;
 }
 
 .nextNum {
-    background-color: rgb(180, 180, 180);
+    display: table-cell;
+    vertical-align: middle;
+    color: whitesmoke;
+    font-family: 'Montserrat';
+    font-size: 40;
+    font-weight: 200;
+    padding: 10px;
+    background-color: rgb(93, 90, 90);
+    /* background-color: rgb(180, 180, 180);
     height: 75px;
     width: 200px;
     margin: auto;
     text-align: center;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 24px;
+    font-size: 24px; */
+}
+
+.user-info {
+    width: 76%;
+    height: 100%;
+    display: inline-flex;
+    margin: 0 auto;
+    vertical-align: middle;
+
 }
 
 .emoji {
     height: 100px;
     width: 100px;
     margin: auto;
-    border-radius: 25%;
+    /* border-radius: 25%; */
     align-items: center;
     justify-content: center;
-    padding: 30px;
-    top: 50%;
-    left: 50%;
+    padding: 20px;
+    /* top: 50%;
+    left: 50%; */
 }
 
 .nEmoji {
@@ -228,7 +269,7 @@ table {
 }
 
 .life {
-    left: 20px;
+    margin: auto;
 }
 
 .life1 {
@@ -253,13 +294,53 @@ table {
 }
 
 .game-container {
-    margin: 20px;
+    /* width: 27%; */
+    height: 100%;
     display: inline-flex;
+    margin: 0 auto;
+    vertical-align: middle;
+    /* margin: auto;
+    display: inline-flex;
+    padding: 0px;
+    display: inline-flex;
+    vertical-align: middle; */
+}
+
+.mine-btn {
+    right: 20px;
+    margin: auto;
+}
+
+.undo {
+    left: 20px;
+    margin: auto;
+}
+
+.undo-btn {
+    height: 60px;
+    width: 60px;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
+}
+
+.mine-ex {
+    height: 60px;
+    width: 60px;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.mega-hint {
+    margin: auto;
 }
 
 .hint {
     right: 20px;
+    margin: auto;
 }
 
 .hint1 {
